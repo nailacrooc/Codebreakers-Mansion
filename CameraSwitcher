@@ -18,7 +18,7 @@ public class CameraSwitcher : MonoBehaviour
         if (Input.GetMouseButtonDown(0)) // Assuming left mouse button click
         {
             RaycastHit hit;
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            Ray ray = orthoCamera.ScreenPointToRay(Input.mousePosition);
 
             if (Physics.Raycast(ray, out hit))
             {
