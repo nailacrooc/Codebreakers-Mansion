@@ -1,0 +1,27 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class SwicthOrthoCam : MonoBehaviour
+{
+    public Camera firstCamera;
+    public Camera secondCamera;
+	
+	void Start()
+	{
+		secondCamera.enabled = false;
+	}
+
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.B)){
+			   if (firstCamera.enabled){
+				  firstCamera.enabled = false;
+				  secondCamera.enabled = true;
+			  }else if (secondCamera.enabled){
+				  firstCamera.enabled = true;
+				  secondCamera.enabled = false;
+			  }
+        }
+    }
+}
