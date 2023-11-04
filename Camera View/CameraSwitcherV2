@@ -1,0 +1,43 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class CameraSwitcher : MonoBehaviour
+{
+    public Camera orthoCamera;
+    public Camera perspectiveCamera;
+	private Collider objectCollider; //Collider for the cupboard
+
+    void Start()
+    {
+        orthoCamera.enabled = true;
+        perspectiveCamera.enabled = false;
+		objectCollider = GetComponent<Collider>();
+    }
+
+    void Update()
+    {
+        if (Input.GetMouseButtonDown(0)) // Assuming left mouse button click
+        {
+            RaycastHit hit;
+            Ray ray = orthoCamera.ScreenPointToRay(Input.mousePosition);
+
+            if (Physics.Raycast(ray, out hit))
+            {
+                if (hit.collider.gameObject == gameObject) // Assuming the script is attached to the object you want to click
+                {
+                    orthoCamera.enabled = !orthoCamera.enabled;
+                    perspectiveCamera.enabled = !perspectiveCamera.enabled;
+					objectCollider.enabled = false;  //Disables the collider so the player can interact with the other gameObject.
+                }
+            }
+        }
+
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            orthoCamera.enabled = true;
+            perspectiveCamera.enabled = false;
+			objectCollider.enabled = true; //Enables the collider again
+        }
+    }
+}
