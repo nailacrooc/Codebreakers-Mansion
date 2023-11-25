@@ -1,0 +1,33 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+
+public class SwitchRoom : MonoBehaviour
+{
+    public string GoToRoom;
+	public float TimeToChangeScene;
+	FadeInOut fade;
+
+	void Start(){
+		fade = FindObjectOfType<FadeInOut>();
+	}
+
+    void OnMouseDown()
+    {
+		startSwitchScene();
+    }
+	
+	public void startSwitchScene(){
+		StartCoroutine(switchScene());
+	}
+	
+	//Used for buttons
+	public IEnumerator switchScene(){
+		fade.FadeIn();
+		yield return new WaitForSeconds(TimeToChangeScene);
+		SceneManager.LoadScene(GoToRoom);
+	}
+	
+	
+}
