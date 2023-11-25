@@ -1,0 +1,63 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+
+public class GoToScene2 : MonoBehaviour
+{
+    public string Scene2;
+	public GameObject[] Lights;
+	public GameObject door;
+	bool doorLock = true;
+	public GameObject dialogue;
+
+
+    void OnMouseDown()
+    {
+		if (!doorLock){
+			SceneManager.LoadScene(Scene2);
+		}else {
+			dialogue.SetActive(true);
+		}
+        
+    }
+	
+	void Update()
+    {
+        // Check if Lights 0, 2, 4, and 5 are active
+        if (Lights[0].activeSelf && Lights[2].activeSelf && Lights[4].activeSelf && Lights[5].activeSelf)
+        {
+            // Check if Lights 1 and 3 are NOT active
+            if (!Lights[1].activeSelf && !Lights[3].activeSelf)
+            {
+                // Unlock the door
+                UnlockDoor();
+				
+            }
+            else
+            {
+                // Lock the door
+                LockDoor();
+            }
+        }
+        else
+        {
+            // Lock the door
+            LockDoor();
+        }
+    }
+
+    void UnlockDoor()
+    {
+        // Add code here to unlock the door (e.g., play an animation, disable collider, etc.)
+        Debug.Log("Door is unlocked!");
+		doorLock = false;
+    }
+
+    void LockDoor()
+    {
+        // Add code here to lock the door (e.g., play an animation, enable collider, etc.)
+        doorLock = true;
+    }
+	
+}
