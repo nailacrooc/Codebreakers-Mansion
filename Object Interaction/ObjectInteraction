@@ -1,0 +1,65 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class ObjectInteraction : MonoBehaviour
+{
+    public Camera perspectiveCamera; // Assign your perspective camera in the inspector
+
+    private Vector3 originalPosition;
+    private Quaternion originalRotation;
+    private bool isInteracting = false;
+
+    void Start()
+    {
+        // Store the original position and rotation of the object
+        originalPosition = transform.position;
+        originalRotation = transform.rotation;
+    }
+
+    void Update()
+    {
+        if (perspectiveCamera != null && !perspectiveCamera.orthographic)
+        {
+            if (Input.GetMouseButtonDown(0)) // Change this to suit your interaction trigger
+            {
+                RaycastHit hit;
+                Ray ray = perspectiveCamera.ScreenPointToRay(Input.mousePosition);
+
+                if (Physics.Raycast(ray, out hit))
+                {
+                    if (hit.collider.gameObject == gameObject)
+                    {
+                        if (!isInteracting)
+                        {
+                            // Move the object closer to the camera
+                            transform.position = perspectiveCamera.transform.position + perspectiveCamera.transform.forward * 2f;
+
+                            // Allow the object to be rotated
+                            isInteracting = true;
+                        }
+                        else
+                        {
+                            // Reset the position and rotation of the object
+                            transform.position = originalPosition;
+                            transform.rotation = originalRotation;
+                            isInteracting = false;
+                        }
+                    }
+                }
+            }
+
+            if (isInteracting)
+            {
+                float rotationSpeed = 5f; // Adjust this to control rotation speed
+
+                float mouseX = Input.GetAxis("Mouse X") * rotationSpeed;
+                float mouseY = Input.GetAxis("Mouse Y") * rotationSpeed;
+
+                // Rotate the object based on mouse input
+                transform.Rotate(Vector3.up, -mouseX, Space.World);
+                transform.Rotate(Vector3.right, mouseY, Space.World);
+            }
+        }
+    }
+}
