@@ -1,0 +1,22 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.Events;
+
+public class BinaryButton : MonoBehaviour
+{
+    private bool isOn = false;
+	public GameObject lightIndicator;
+
+    public void Toggle()
+    {
+        isOn = !isOn;
+        Debug.Log(gameObject.name + " is now " + (isOn ? "ON" : "OFF"));
+        lightIndicator.SetActive(isOn);
+    }
+
+    void OnMouseDown()
+    {
+        Toggle();
+    }
+}
