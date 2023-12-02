@@ -1,0 +1,12 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+ 
+public class DialogueSpawner : MonoBehaviour
+{
+    public GameObject dialogueBox;
+	
+	void OnMouseDown(){
+		dialogueBox.SetActive(true);
+	}
+}
