@@ -1,0 +1,40 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class DisableCollider : MonoBehaviour
+{
+	public GameObject DialogueBox;
+    
+    void Update()
+    {
+        if(DialogueBox.activeInHierarchy){
+			disableColliders();
+		}else {
+			enableColliders();
+		}
+    }
+	
+	void disableColliders()
+    {
+        // Find all colliders in the scene
+        Collider[] allColliders = FindObjectsOfType<Collider>();
+
+        // Disable each collider
+        foreach (Collider collider in allColliders)
+        {
+            collider.enabled = false;
+        }
+    }
+	
+	void enableColliders(){
+		// Find all colliders in the scene
+        Collider[] allColliders = FindObjectsOfType<Collider>();
+
+        // Disable each collider
+        foreach (Collider collider in allColliders)
+        {
+            collider.enabled = true;
+        }
+	}
+}
