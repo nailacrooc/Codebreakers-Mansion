@@ -1,0 +1,68 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using TMPro;
+using UnityEngine.EventSystems;
+
+public class Dialogue : MonoBehaviour
+{
+    public TextMeshProUGUI textComponent;
+    public float textSpeed;
+    public List<string> dialogueLines; // List to hold multiple lines of dialogue
+
+    private bool isTyping = false;
+    private bool dialogueShown = false;
+    private int currentLine = 0; // Index to keep track of the current line
+
+    // Update is called once per frame
+    void Update()
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
+            if (isTyping)
+            {
+                // If typing is in progress, complete the typing instantly
+                StopAllCoroutines();
+                textComponent.text = dialogueLines[currentLine];
+                isTyping = false;
+            }
+            else
+            {
+                if (currentLine < dialogueLines.Count)
+                {
+                    StartCoroutine(TypeLine());
+                }
+                if (!isTyping && dialogueShown)
+                {
+                    ResetDialogue();
+                }
+            }
+        }
+    }
+
+    IEnumerator TypeLine()
+    {
+        isTyping = true;
+        textComponent.text = ""; // Clear existing text
+        foreach (char c in dialogueLines[currentLine].ToCharArray())
+        {
+            textComponent.text += c;
+            yield return new WaitForSeconds(textSpeed);
+        }
+        isTyping = false;
+        currentLine++; // Move to the next line
+
+        // Set dialogueShown to true when all lines are shown
+        if (currentLine == dialogueLines.Count)
+        {
+            dialogueShown = true;
+        }
+    }
+	
+	void ResetDialogue(){
+	// If all lines are shown, hide the dialogue
+		currentLine = 0;
+        gameObject.SetActive(false);
+        dialogueShown = false;
+	}
+}
